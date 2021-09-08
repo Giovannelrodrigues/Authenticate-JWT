@@ -13,6 +13,14 @@ async function Store(user){
     }
 }
 
+async function changeroles(user){
+    let userDB = await User.findOne({_id: user.id})
+    userDB.role = 'admin'
+    userDB.save()
+    return userDB
+}
+
 export default {
-    Store
+    Store,
+    changeroles
 }

@@ -17,6 +17,20 @@ async function Store(req, res, next){
     }
 }
 
+async function changeroles(req, res, next){
+    try{
+        let user = req.body
+        if(!user.id){
+            throw new Error('Email not provide')
+        }
+        user = await UserService.changeroles(user)
+        res.status(200).send(user)
+    }catch(err){
+        next(err)
+    }
+}
+
 export default {
-    Store
+    Store,
+    changeroles
 }

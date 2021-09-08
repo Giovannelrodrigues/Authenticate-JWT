@@ -28,7 +28,7 @@ async function loginGoogle(user){
     if(!userDB){
         userDB = await AuthRepository.StoreGoogle(user)
     }
-    const token = await generateToken(user.id)
+    const token = await generateToken(userDB._id)
     userDB.password = undefined
     return {
         userDB,

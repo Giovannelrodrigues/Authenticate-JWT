@@ -18,6 +18,19 @@ async function Store(user){
     }
 }
 
+async function changeroles(user){
+    let userDB = await UserRepository.changeroles(user)
+    return {
+        _id: userDB.id,
+        email: userDB.email,
+        createdAt: userDB.createdAt,
+        updatedAt: userDB.updatedAt,
+        __v: userDB.__v,
+        role: userDB.role
+    }
+}
+
 export default {
-    Store
+    Store,
+    changeroles
 }

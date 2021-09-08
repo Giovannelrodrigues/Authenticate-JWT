@@ -4,7 +4,9 @@ import env from 'dotenv'
 import UserRoutes from './routes/User.route.js'
 import passport from 'passport'
 import AuthRoutes from './routes/Auth.routes.js'
+import SlugRoutes from './routes/Slug.routes.js'
 import GoogleRoutes from './routes/Google.routes.js'
+import ProductRoutes from './routes/Product.routes.js'
 import cookieParser from 'cookie-parser'
 import GoogleStrategy from 'passport-google-oauth20'
 import session from 'express-session'
@@ -40,9 +42,11 @@ app.use(passport.session())
 app.use(bodyParser.json())
 
 
-app.use('/users', UserRoutes)
 app.use('/auth', AuthRoutes)
 app.use('/auth', GoogleRoutes)
+app.use('/users', UserRoutes)
+app.use('/slug', SlugRoutes)
+app.use('/product', ProductRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port: ${process.env.PORT}`)
