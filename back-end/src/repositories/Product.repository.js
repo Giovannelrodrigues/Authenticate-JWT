@@ -33,10 +33,16 @@ async function index(){
 }
 
 async function destroy(id){
-    return await Product.deleteOne({id: id})
+    return await Product.deleteOne({_id: id})
 }
+
+async function show(id){
+    return await Product.findOne({_id: id})
+}
+
 export default {
     Store,
     index,
-    destroy
+    destroy,
+    show
 }

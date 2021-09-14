@@ -59,8 +59,20 @@ async function destroy(req, res, next){
     }
 }
 
+
+async function show(req, res, next){
+    try{
+        let id = req.params.id
+        const product = await ProductServices.show(id)
+        res.status(200).send(product)
+    }catch(err){
+        next(err)
+    }
+}
+
 export default {
     Store,
     index,
-    destroy
+    destroy,
+    show
 }

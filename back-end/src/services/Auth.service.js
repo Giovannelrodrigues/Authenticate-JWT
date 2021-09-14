@@ -8,19 +8,25 @@ async function generateToken(id){
     })
 }
 
-async function login(user){
-    let userDB = await AuthRepository.login(user)
+async function login(user, erro){
+    let userDB = await AuthRepository.login(user, erro)
     if(userDB.password === 'gg'){
-        throw new Error('You must login with google')
+        erro.push('You must login with google')
     }
+
     if(!await bcrypt.compare(user.password, userDB.password)){
-        throw new Error('Password invalid')
+        erro.push('Password invalid')
     }
-    userDB.password = undefined
-    const token = await generateToken(userDB._id)
-    return {
-        user: userDB,
-        token
+    if(erro.length  < 1){
+        return erro
+    }else{
+        userDB.password = undefined
+        const token = await generateToken(userDB._id)
+    
+        return {
+            user: userDB,
+            token
+        }
     }
 }
 async function loginGoogle(user){

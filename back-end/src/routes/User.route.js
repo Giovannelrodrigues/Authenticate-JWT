@@ -8,8 +8,5 @@ router.post('/registers', UserController.Store)
 
 router.use(AuthMiddleware)
 router.patch('/changeroles', AdminMiddleware, UserController.changeroles)
-router.use((err, req, res, next) => {
-    res.status(400).send({ error: err.message });
-})
 
 export default router

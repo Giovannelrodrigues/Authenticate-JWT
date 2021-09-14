@@ -13,8 +13,14 @@ async function destroy(id){
     return await ProductRepository.destroy(id)
 }
 
+async function show(id){
+    return await ProductRepository.show(id)
+}
+
+
 export default{
     Store,
     index,
-    destroy
+    destroy,
+    show
 }

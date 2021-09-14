@@ -16,10 +16,17 @@ async function loginGoogle(req, res, next){
 async function login(req, res, next){
     try{
         let user = req.body
+        let erro = []
+
         if(!user.email || !user.password){
-            res.status(400).send({error: 'Email and Password is required'})
+            erro.push('Email and Password is required')
         }
-        user = await AuthService.login(user)
+
+        user = await AuthService.login(user, erro)
+
+        if(erro.length  < 1){
+            res.status(200).send(erro)
+        }
         res.status(200).send(user)
     }catch(err){
         next(err)
@@ -28,7 +35,6 @@ async function login(req, res, next){
 
 async function logout(req, res, next){
     try{
-        console.log(req.user)
         const AuthHeader = req.headers.authorization
         const [schema, token] = AuthHeader.split(' ')
         await AuthService.logout(token)

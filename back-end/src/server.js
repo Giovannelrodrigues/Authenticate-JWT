@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import env from 'dotenv'
+import cors from 'cors'
 import UserRoutes from './routes/User.route.js'
 import passport from 'passport'
 import AuthRoutes from './routes/Auth.routes.js'
@@ -32,7 +33,6 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(function(obj, done){
     done(null, obj)
 })
-
 env.config()
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: false}))
@@ -41,12 +41,19 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.json())
 
-
+app.use(cors())
 app.use('/auth', AuthRoutes)
 app.use('/auth', GoogleRoutes)
 app.use('/users', UserRoutes)
 app.use('/slug', SlugRoutes)
 app.use('/product', ProductRoutes)
+app.use((err, req, res, next) => {
+    if(err){
+        res.status(400).send({ error: err.message });
+    }else{
+        next()
+    }  
+})
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port: ${process.env.PORT}`)

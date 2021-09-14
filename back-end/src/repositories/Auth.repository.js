@@ -1,6 +1,5 @@
 import User from '../models/User.model.js'
 import Blacklist from '../models/BlackList.model.js'
-
 async function StoreGoogle(user){
     let email = user._json.email
     let newUser = {
@@ -11,18 +10,19 @@ async function StoreGoogle(user){
     return newUser
 }
 
-async function login(user){
+async function login(user, erro){
     let userDB = await User.findOne({email: user.email})
     if(userDB){
         return userDB
     }else{
-        throw new Error("User not exists")
+        erro.push('Email already exists')
     }
 }
 
 async function logout(token){
     return await Blacklist.create({token: token})
 }
+
 async function loginGoogle(user){
     let email = user._json.email
     return await User.findOne({email: email})
